@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
+import { NumericFormat } from 'react-number-format';
 import './App.css';
 
      
 function App() {
   const [initialState, setInitialState] = useState("")
   const [currentState, setCurrentState] = useState("")
-  const [input, setInputState] = useState("0")
+  const [inputState, setInputState] = useState("0")
   const [operator, setOperator] = useState(null)
   const [total, setTotal] = useState(false)
 
   //reset handler
   const reset = () => {
-
+      setInitialState("")
+      setCurrentState("")
+      setInputState("0")
   }
 
   //PlusMinus handler 
@@ -25,13 +28,51 @@ function App() {
   }
 
   //operations handler
-  const operation = () =>{
-
+  const operation = (e) =>{
+    //to continue calc in background
+    setTotal(false)
+    setOperator(e.target.innerText)
+    if(currentState === "") return
+    if(initialState !== " ") {
+      equalsBtn()
+    }else{
+      setInitialState(currentState)
+      setCurrentState("")
+      console.log(e)
+    }
   }
 
   //equals handler
-  const equalsBtn = () => {
+  const equalsBtn = (e) => {
+      if(e?.target.innerText === "=") {
+        setTotal(true)
+      }
 
+      let calc
+      switch (operator) {
+        case "/":
+          calc = String(parseFloat(initialState) / parseFloat(currentState)
+          );
+          break;
+      
+        case "+":
+          calc = String(parseFloat(initialState) + parseFloat(currentState)
+          );
+          break;
+        case "X":
+          calc = String(parseFloat(initialState) * parseFloat(currentState)
+          );
+          break;
+        case "-":
+          calc = String(parseFloat(initialState) - parseFloat(currentState)
+          );
+          break; 
+          default:
+            return;
+      }
+      setInputState("")
+      setInitialState(calc)
+      setCurrentState("")
   }
 
   //numberBtn handler
@@ -49,15 +90,25 @@ function App() {
     setTotal(false)
   };
 
+  //set the effect, everytime the currentState changes
   useEffect(()=>{
     setInputState(currentState)
   }, [currentState])
 
+  //set the effect, everytime the app loads
+  useEffect(()=>{
+    setInputState("0")
+  }, [])
 
   return (
     <div className='calc-container'>
       <div className='calc-wrapper' >
-        <div className='calc-screen'>{input}</div>
+        <div className='calc-screen'>
+          {inputState !== " " || inputState === "0" ?
+            // <NumericFormat value={inputState} displayType={'text'} thousandSeparator={true}/>) :(
+            // <NumericFormat value={initialState} displayType={'text'} thousandSeparator={true}/>) }
+  
+        </div>
         <div className='calc-btn grey-btn' onClick={reset}>AC</div>
         <div className='calc-btn grey-btn' onClick={plusMinus}>+/-</div>
         <div className='calc-btn grey-btn' onClick={percent}>%</div>
