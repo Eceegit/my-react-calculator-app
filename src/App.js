@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NumericFormat } from 'react-number-format';
+import {NumericFormat} from 'react-number-format';
 import './App.css';
 
      
@@ -48,7 +48,7 @@ function App() {
         setTotal(true)
       }
 
-      let calc
+      let calc;
       switch (operator) {
         case "/":
           calc = String(parseFloat(initialState) / parseFloat(currentState)
@@ -67,7 +67,7 @@ function App() {
           calc = String(parseFloat(initialState) - parseFloat(currentState)
           );
           break; 
-          default:
+        default:
             return;
       }
       setInputState("")
@@ -104,11 +104,9 @@ function App() {
     <div className='calc-container'>
       <div className='calc-wrapper' >
         <div className='calc-screen'>
-          {inputState !== " " || inputState === "0" ?
-            // <NumericFormat value={inputState} displayType={'text'} thousandSeparator={true}/>) :(
-            // <NumericFormat value={initialState} displayType={'text'} thousandSeparator={true}/>) }
-  
+          {inputState !== " " || inputState === "0" ? (<NumericFormat value={inputState} displayType={"text"} thousandSeparator={true} />) : (<NumericFormat value={initialState} displayType={'text'} thousandSeparator={true} />)}
         </div>
+
         <div className='calc-btn grey-btn' onClick={reset}>AC</div>
         <div className='calc-btn grey-btn' onClick={plusMinus}>+/-</div>
         <div className='calc-btn grey-btn' onClick={percent}>%</div>
