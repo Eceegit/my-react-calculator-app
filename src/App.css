@@ -43,7 +43,7 @@ body{
   background-color: #242424;
   text-align: right;
   padding: 0.7rem;
-  height: 15vh;
+  height: 13vh;
   font-size: 4rem;
   overflow: hidden;
 }
@@ -55,6 +55,7 @@ body{
   color: #fff;
   border-radius: 50%;
   font-weight: 500;
+
 }
 
 .calc-btn:hover{
