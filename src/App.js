@@ -5,16 +5,17 @@ import './App.css';
      
 function App() {
   const [initialState, setInitialState] = useState("")
-  const [currentState, setCurrentState] = useState("")
-  const [inputState, setInputState] = useState("0")
+  const [currentState, setCurrentState] = useState("0")
+  const [final, setFinalState] = useState("")
+  const [inputState, setInputState] = useState()
   const [operator, setOperator] = useState(null)
   const [total, setTotal] = useState(false)
 
   //reset handler
   const reset = () => {
-      setInitialState("")
-      setCurrentState("")
-      setInputState("0")
+      setInitialState(null)
+      setCurrentState("0")
+      setInputState(null)
   }
 
   //PlusMinus handler 
@@ -32,14 +33,17 @@ function App() {
     //to continue calc in background
     setTotal(false)
     setOperator(e.target.innerText)
-    if(currentState === "") return
-    if(initialState !== " ") {
-      equalsBtn()
-    }else{
-      setInitialState(currentState)
-      setCurrentState("")
-      console.log(e)
-    }
+    // if(currentState === "") return
+    setInitialState(currentState)
+    setInputState(currentState)
+    setCurrentState(null)
+    // if(initialState !== " ") {
+    //   equalsBtn()
+    // }else{
+      // setInitialState(currentState)
+      // setCurrentState("")
+    //   console.log(e)
+    // }
   }
 
   //equals handler
@@ -51,60 +55,75 @@ function App() {
       let calc;
       switch (operator) {
         case "/":
-          calc = String(parseFloat(initialState) / parseFloat(currentState)
+          calc = String(parseFloat(initialState) / parseFloat(final)
           );
           break;
       
         case "+":
-          calc = String(parseFloat(initialState) + parseFloat(currentState)
+          calc = String(parseFloat(initialState) + parseFloat(final)
           );
           break;
         case "X":
-          calc = String(parseFloat(initialState) * parseFloat(currentState)
+          calc = String(parseFloat(initialState) * parseFloat(final)
           );
           break;
         case "-":
-          calc = String(parseFloat(initialState) - parseFloat(currentState)
+          calc = String(parseFloat(initialState) - parseFloat(final)
           );
           break; 
         default:
             return;
       }
-      setInputState("")
-      setInitialState(calc)
-      setCurrentState("")
+      console.log(calc)
+      // setInputState("see")
+      setFinalState(calc)
+      // setCurrentState("new")
   }
 
   //numberBtn handler
   const NumberBtn = (e) =>{
     //to avoid two dots
-    if(currentState.includes(".") && e.target.innerText === ".") return
+    if(currentState && currentState.includes(".") && e.target.innerText === ".") return
+    if(final && final.includes(".") && e.target.innerText === ".") return
+    
 
     //to set the equal to true to stop calculation 
     if(total){
       setInitialState("")
     }
 
-    currentState ? setCurrentState(prev => prev + e.target.innerText) : setCurrentState(e.target.innerText)
+    currentState ? setCurrentState(prev => prev + e.target.innerText) : setFinalState(prev => prev + e.target.innerText)
+    // currentState ? setCurrentState(`${parseFloat(prev => prev + e.target.innerText)}`) : 
+    // setFinalState(`${parseFloat(prev => prev + e.target.innerText)}`)
     //setting the total back to false to get ready for the next calc
     setTotal(false)
   };
 
   //set the effect, everytime the currentState changes
   useEffect(()=>{
-    setInputState(currentState)
-  }, [currentState])
+    if(final !== null){
+      setInputState(null)
+    }
+  }, [final])
 
   //set the effect, everytime the app loads
-  useEffect(()=>{
-    setInputState("0")
-  }, [])
-
+  // useEffect(()=>{
+  //   setInputState("0")
+  // }, [])
+  // console.log(inputState, initialState, inputState !== " " || inputState === "0")
+  console.log("inputState=", inputState, 
+"initialState ", initialState, final, currentState
+)
   return (
     <div className='calc-container'>
       <div className='calc-wrapper' >
         <div className='calc-screen'>
-          {inputState !== " " || inputState === "0" ? (<NumericFormat value={inputState} displayType={"text"} thousandSeparator={true} />) : (<NumericFormat value={initialState} displayType={'text'} thousandSeparator={true} />)}
+            {currentState !== null ? (<NumericFormat value={parseFloat(currentState)} displayType={'text'} thousandSeparator={true} />): 
+              inputState !== null ? (<NumericFormat value={parseFloat(inputState)} displayType={'text'} thousandSeparator={true} />) :
+              (<NumericFormat value={final} displayType={'text'} thousandSeparator={true} />) }
+        {/* {currentState !== null ?  currentState: inputState !== null ? inputState : final} */}
+          {/* {inputState !== " " || inputState === "0" ? (<NumericFormat value={inputState} displayType={"text"} thousandSeparator={true} />) : 
+          (<NumericFormat value={initialState} displayType={'text'} thousandSeparator={true} />)} */}
         </div>
 
         <div className='calc-btn grey-btn' onClick={reset}>AC</div>
