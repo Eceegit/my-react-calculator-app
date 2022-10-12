@@ -3,6 +3,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* to remove the blue background when accidentally dragged*/
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -webkit-app-region: none;
+
 }
 
 body{
@@ -15,9 +20,8 @@ body{
 
 .calc-container{
   width: 50vh;
-  height: 80vh;
+  height: 90vh;
   padding: 1rem;
-  /* background-color: #000; */
   border-radius: 1rem;
   box-shadow: 0px 10px 15px 3px rgba(0, 0, 0, 0.1);
 
@@ -35,10 +39,11 @@ body{
 
 .calc-screen{
   grid-column:  1 / -1;
-  color: #000;
+  color: #fff;
+  background-color: #242424;
   text-align: right;
-  padding: 0.5rem;
-  /* margin-bottom: 1rem; */
+  padding: 0.7rem;
+  height: 15vh;
   font-size: 4rem;
   overflow: hidden;
 }
@@ -82,52 +87,3 @@ body{
   align-items: center;
   padding-left: 35px;
 }
-
-
-
-/* 
-.calc-wrapper{
-  width: 20rem;
-  padding: 2rem;
-  margin-top: 3rem;
-  background-color: #f6f8f9;
-  border-radius: 12px;
-  box-shadow: 0px 10px 15px 3px rgba(0, 0, 0, 0.1);
-}
-
-.calc-output{
-  height: 4rem;
-  margin-bottom: 4rem;
-}
-.button-box{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.4rem;
-}
-
-.calc-btn{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px;
-  font-size: 20px;
-  background-color: #e9f0f4;
-  color: #242424;
-  height: 3.5rem;
-  border-radius: 10px;
-  border: 1px solid red;
-  cursor: pointer;
-}
-
-.calc-btn:hover{
-  border: 2px solid #242424;
-}
-
-.equals-btn{
-  background-color: #4bd086;
-  grid-column: 3/5;
-}
-
-.operations-btn{
-  background-color: #f79505;
-} */
